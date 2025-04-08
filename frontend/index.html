@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/custom.css">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-blue-800">Fake News Detector</h1>
+                    <p class="text-gray-600">Advanced machine learning system for detecting misinformation</p>
+                </div>
+                <div class="hidden sm:block">
+                    <div class="flex space-x-2">
+                        <div class="bg-green-100 p-2 rounded-lg flex items-center">
+                            <div class="h-3 w-3 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-sm font-medium text-green-800">Models loaded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Analysis Panel -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Analyze Text</h2>
+                <div class="mb-4">
+                    <textarea id="articleText"
+                        class="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Paste the news article text here..."></textarea>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div class="flex space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" id="modelRF" name="model" value="rf" checked
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                            <label for="modelRF" class="ml-2 text-sm font-medium text-gray-700">Random Forest</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="modelLSTM" name="model" value="lstm"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                            <label for="modelLSTM" class="ml-2 text-sm font-medium text-gray-700">LSTM</label>
+                        </div>
+                    </div>
+                    <div>
+                        <button id="analyzeBtn"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            Analyze Article
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Section (hidden by default) -->
+                <div id="resultSection" class="hidden border-t pt-4">
+                    <div class="mb-4">
+                        <div class="flex items-center mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Result:</h3>
+                            <span id="resultBadge" class="ml-2 px-2 py-1 text-sm font-semibold rounded-full"></span>
+                        </div>
+                        <p id="resultConfidence" class="text-gray-600"></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-700 mb-1">Probability of being true:</h4>
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div id="probabilityBar" class="h-4 rounded-full"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-600 mt-1">
+                            <span>0%</span>
+                            <span>50%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example buttons -->
+                <div class="pt-4 border-t">
+                    <p class="text-sm text-gray-600 mb-2">Try these examples:</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="trueNewsBtn"
+                            class="px-3 py-1 text-sm bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                            Insert True News Example
+                        </button>
+                        <button id="fakeNewsBtn"
+                            class="px-3 py-1 text-sm bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                            Insert Fake News Example
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">How It Works</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-700">Models</h3>
+                        <p class="text-gray-600 text-sm">This system uses two different algorithms to analyze news
+                            articles:</p>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-gray-600">
+                            <li><span class="font-semibold">Random Forest:</span> Uses TF-IDF analysis of words and
+                                expressions</li>
+                            <li><span class="font-semibold">LSTM:</span> Uses neural networks to capture sequence and
+                                context</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-700">Signs of Fake News</h3>
+                        <ul class="list-disc pl-5 mt-2 text-sm text-gray-600">
+                            <li>Sensationalist language</li>
+                            <li>Lack of reliable sources</li>
+                            <li>Logical inconsistencies</li>
+                            <li>Misleading headlines</li>
+                            <li>Excessive emotional content</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="mt-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Model Performance</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Performance Metrics -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-medium text-gray-700 mb-4">Performance Metrics</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-600 mb-1">Random Forest</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-blue-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">Accuracy</p>
+                                    <p id="rf-accuracy" class="text-lg font-semibold text-blue-700">96.2%</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">Precision</p>
+                                    <p id="rf-precision" class="text-lg font-semibold text-blue-700">95.3%</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">Recall</p>
+                                    <p id="rf-recall" class="text-lg font-semibold text-blue-700">97.1%</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">F1 Score</p>
+                                    <p id="rf-f1" class="text-lg font-semibold text-blue-700">0.962</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-600 mb-1">LSTM</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">Accuracy</p>
+                                    <p id="lstm-accuracy" class="text-lg font-semibold text-indigo-700">94.9%</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">Precision</p>
+                                    <p id="lstm-precision" class="text-lg font-semibold text-indigo-700">93.8%</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">Recall</p>
+                                    <p id="lstm-recall" class="text-lg font-semibold text-indigo-700">96.2%</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <p class="text-xs text-gray-500">F1 Score</p>
+                                    <p id="lstm-f1" class="text-lg font-semibold text-indigo-700">0.950</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Importance -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-medium text-gray-700 mb-4">Top Features</h3>
+                    <div class="chart-container">
+                        <canvas id="featureChart" height="200"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>Fake News Detection Project © 2025</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="./js/main.js"></script>
+    <script src="./js/charts.js"></script>
+</body>
+
+</html>

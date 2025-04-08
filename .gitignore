@@ -1,0 +1,72 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.db
+*.sqlite3
+
+# Virtual Environment
+venv/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Flask
+instance/
+.webassets-cache
+
+# Node.js (if using frontend frameworks)
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Python package distribution
+*.egg
+*.egg-info
+*.dist-info
+*.whl
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Environment Files
+.env
+.env.*
+*.env
+
+# Coverage directory used by pytest
+.coverage
+.coverage.*
+
+# pyenv
+.python-version
+
+# PyInstaller
+*.manifest
+*.spec
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# TypeScript or JavaScript Build Output (if applicable)
+dist/
+build/
+
